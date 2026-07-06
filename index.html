@@ -3,1064 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fiches Web — Glossaire collaboratif</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Le Carrot Cake de Lise</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ── RESET & BASE ─────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Nunito', sans-serif;
-  background: #F4F6FB;
-  color: #1E2235;
-  min-height: 100vh;
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --rose:#FDE8E8;--rose-mid:#F9C8C8;--rose-dark:#E8A0A0;
+  --jaune:#FDF6E3;--jaune-mid:#F5E6B0;
+  --vert:#D4EDE8;--vert-mid:#A8D5CC;--vert-dark:#5BA89A;
+  --text:#3D2B1F;--text-light:#7A5C4E;--white:#FFFDF9;
 }
-
-/* ── COULEURS PAR OUTIL ───────────────────────────────────────────────────── */
-:root {
-  --html-c: #E8622A;  --html-bg: #FFF0EB;  --html-br: #FBBFA6;
-  --css-c:  #2A6FE8;  --css-bg:  #EBF0FF;  --css-br:  #A6BFFB;
-  --js-c:   #D4A800;  --js-bg:   #FFF9E0;  --js-br:   #F5DC7A;
-  --bs-c:   #7B3FE4;  --bs-bg:   #F3EEFF;  --bs-br:   #C9ACFB;
-  --mk-c:   #0F8A60;  --mk-bg:   #E6F7F1;  --mk-br:   #80D4B4;
-  --gl-c:   #C2460B;  --gl-bg:   #FFF2EB;  --gl-br:   #F5B48A;
-}
-
-/* ── TOPBAR ───────────────────────────────────────────────────────────────── */
-.topbar {
-  background: #fff;
-  border-bottom: 2px solid #EAECF5;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  height: 64px;
-}
-.topbar-logo {
-  font-size: 17px;
-  font-weight: 800;
-  color: #1E2235;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.topbar-logo .dot {
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #2A6FE8, #7B3FE4);
-}
-.topbar-sep { width: 1px; height: 28px; background: #EAECF5; flex-shrink: 0; }
-
-.filters {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.filters::-webkit-scrollbar { display: none; }
-
-.filter-btn {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 2px solid transparent;
-  background: #F4F6FB;
-  color: #6B7090;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all .15s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.filter-btn .chip-icon { font-size: 14px; }
-.filter-btn:hover { background: #EAECF5; color: #1E2235; }
-.filter-btn.active { background: #1E2235; color: #fff; border-color: #1E2235; }
-.filter-btn.active.f-html { background: var(--html-c); border-color: var(--html-c); }
-.filter-btn.active.f-css  { background: var(--css-c);  border-color: var(--css-c); }
-.filter-btn.active.f-js   { background: var(--js-c);   border-color: var(--js-c); color: #1E2235; }
-.filter-btn.active.f-bs   { background: var(--bs-c);   border-color: var(--bs-c); }
-.filter-btn.active.f-mk   { background: var(--mk-c);   border-color: var(--mk-c); }
-.filter-btn.active.f-gl   { background: var(--gl-c);   border-color: var(--gl-c); }
-
-.topbar-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-.search-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #F4F6FB;
-  border: 2px solid #EAECF5;
-  border-radius: 12px;
-  padding: 0 12px;
-  height: 38px;
-  transition: border-color .15s;
-}
-.search-box:focus-within { border-color: #2A6FE8; }
-.search-box input {
-  border: none;
-  background: transparent;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  color: #1E2235;
-  outline: none;
-  width: 160px;
-}
-.search-box input::placeholder { color: #9EA4C0; }
-
-.add-card-btn {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 16px;
-  background: #2A6FE8;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background .15s, transform .1s;
-  white-space: nowrap;
-}
-.add-card-btn:hover { background: #1A5FD8; }
-.add-card-btn:active { transform: scale(.97); }
-.add-card-btn .plus { font-size: 18px; font-weight: 400; line-height: 1; }
-
-/* ── HERO ─────────────────────────────────────────────────────────────────── */
-.hero {
-  padding: 40px 32px 24px;
-  max-width: 1180px;
-  margin: 0 auto;
-}
-.hero h1 {
-  font-size: clamp(22px, 3vw, 30px);
-  font-weight: 800;
-  color: #1E2235;
-  margin-bottom: 6px;
-}
-.hero p { font-size: 15px; color: #6B7090; font-weight: 500; }
-.hero strong { color: #1E2235; }
-
-/* ── GRID ─────────────────────────────────────────────────────────────────── */
-.grid {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 32px 64px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-/* ── CARD ─────────────────────────────────────────────────────────────────── */
-.card {
-  background: #fff;
-  border-radius: 20px;
-  border: 2px solid #EAECF5;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform .18s, box-shadow .18s, border-color .18s;
-}
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(30,34,53,.09);
-  border-color: #D4D8EC;
-}
-
-/* bandeau couleur haut */
-.card-stripe {
-  height: 6px;
-  width: 100%;
-}
-.card[data-cat="html"] .card-stripe { background: var(--html-c); }
-.card[data-cat="css"]  .card-stripe { background: var(--css-c); }
-.card[data-cat="js"]   .card-stripe { background: var(--js-c); }
-.card[data-cat="bootstrap"] .card-stripe { background: var(--bs-c); }
-.card[data-cat="mkdocs"]    .card-stripe { background: var(--mk-c); }
-.card[data-cat="gitlab"]    .card-stripe { background: var(--gl-c); }
-
-.card-head {
-  padding: 20px 22px 16px;
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-}
-.card-icon {
-  width: 52px; height: 52px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  flex-shrink: 0;
-}
-.card[data-cat="html"]      .card-icon { background: var(--html-bg); }
-.card[data-cat="css"]       .card-icon { background: var(--css-bg); }
-.card[data-cat="js"]        .card-icon { background: var(--js-bg); }
-.card[data-cat="bootstrap"] .card-icon { background: var(--bs-bg); }
-.card[data-cat="mkdocs"]    .card-icon { background: var(--mk-bg); }
-.card[data-cat="gitlab"]    .card-icon { background: var(--gl-bg); }
-
-.card-head-text { flex: 1; min-width: 0; }
-
-.card-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  margin-bottom: 6px;
-}
-.card[data-cat="html"]      .card-badge { background: var(--html-bg); color: var(--html-c); }
-.card[data-cat="css"]       .card-badge { background: var(--css-bg);  color: var(--css-c); }
-.card[data-cat="js"]        .card-badge { background: var(--js-bg);   color: var(--js-c); }
-.card[data-cat="bootstrap"] .card-badge { background: var(--bs-bg);   color: var(--bs-c); }
-.card[data-cat="mkdocs"]    .card-badge { background: var(--mk-bg);   color: var(--mk-c); }
-.card[data-cat="gitlab"]    .card-badge { background: var(--gl-bg);   color: var(--gl-c); }
-
-.card h2 {
-  font-size: 17px;
-  font-weight: 800;
-  color: #1E2235;
-  line-height: 1.2;
-  margin-bottom: 2px;
-}
-.card .card-sub {
-  font-size: 12px;
-  color: #9EA4C0;
-  font-weight: 600;
-}
-
-/* définition */
-.card-def {
-  padding: 0 22px 14px;
-  font-size: 13.5px;
-  color: #4A5070;
-  line-height: 1.65;
-  font-weight: 500;
-}
-
-/* métaphore */
-.card-metaphore {
-  margin: 0 22px 16px;
-  background: #F4F6FB;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #6B7090;
-  font-weight: 600;
-  line-height: 1.55;
-}
-
-/* exemple de code */
-.card-code {
-  margin: 0 22px 18px;
-  background: #1E2235;
-  border-radius: 12px;
-  overflow: hidden;
-}
-.card-code-header {
-  padding: 8px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-.mac-dots { display: flex; gap: 5px; }
-.mac-dots span {
-  width: 9px; height: 9px; border-radius: 50%;
-}
-.mac-dots span:nth-child(1) { background: #FF5F56; }
-.mac-dots span:nth-child(2) { background: #FFBD2E; }
-.mac-dots span:nth-child(3) { background: #27C93F; }
-.code-filename {
-  font-size: 11px;
-  color: rgba(255,255,255,.35);
-  font-weight: 600;
-  letter-spacing: .04em;
-}
-.card-code pre {
-  padding: 14px 16px;
-  font-family: 'Courier New', monospace;
-  font-size: 12px;
-  line-height: 1.75;
-  color: #C9D1E8;
-  overflow-x: auto;
-  white-space: pre;
-}
-/* syntax */
-.kw  { color: #c792ea; }
-.str { color: #c3e88d; }
-.fn  { color: #82aaff; }
-.cm  { color: #546e94; font-style: italic; }
-.tg  { color: #f07178; }
-.at  { color: #ffcb6b; }
-.vl  { color: #c3e88d; }
-.sl  { color: #89ddff; }
-.pr  { color: #82aaff; }
-.pu  { color: #c792ea; }
-.nm  { color: #f78c6c; }
-
-/* ── SECTIONS CONTRIB ─────────────────────────────────────────────────────── */
-.card-contrib {
-  border-top: 2px solid #F4F6FB;
-  margin-top: auto;
-}
-.contrib-block {
-  padding: 14px 22px;
-  border-bottom: 2px solid #F4F6FB;
-}
-.contrib-block:last-child { border-bottom: none; }
-
-.contrib-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.contrib-label {
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: #9EA4C0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.contrib-count {
-  background: #F4F6FB;
-  color: #6B7090;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 1px 8px;
-  border-radius: 8px;
-}
-.plus-btn {
-  width: 28px; height: 28px;
-  border-radius: 9px;
-  border: 2px solid #EAECF5;
-  background: #fff;
-  color: #6B7090;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Nunito', sans-serif;
-  transition: all .15s;
-  line-height: 1;
-}
-.plus-btn:hover { background: #F4F6FB; color: #1E2235; border-color: #D4D8EC; }
-
-.contrib-items { display: flex; flex-direction: column; gap: 7px; }
-.contrib-item {
-  background: #F4F6FB;
-  border-radius: 10px;
-  padding: 9px 12px;
-  font-size: 13px;
-  color: #4A5070;
-  font-weight: 500;
-  line-height: 1.5;
-}
-.contrib-item a { color: #2A6FE8; text-decoration: none; font-weight: 600; }
-.contrib-item a:hover { text-decoration: underline; }
-.contrib-item .contrib-author {
-  font-size: 11px;
-  color: #9EA4C0;
-  font-weight: 700;
-  margin-top: 3px;
-}
-.contrib-empty {
-  font-size: 12.5px;
-  color: #B8BEDD;
-  font-weight: 600;
-  font-style: italic;
-  padding: 2px 0;
-}
-
-/* ── MODAL ────────────────────────────────────────────────────────────────── */
-.overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(30,34,53,.45);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-.overlay.open { display: flex; }
-
-.modal {
-  background: #fff;
-  border-radius: 24px;
-  padding: 28px;
-  width: 100%;
-  max-width: 480px;
-  box-shadow: 0 24px 64px rgba(30,34,53,.18);
-}
-.modal-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 22px;
-}
-.modal-head h3 {
-  font-size: 18px;
-  font-weight: 800;
-  color: #1E2235;
-  line-height: 1.2;
-}
-.modal-head .modal-sub {
-  font-size: 13px;
-  color: #9EA4C0;
-  font-weight: 600;
-  margin-top: 3px;
-}
-.modal-close {
-  width: 32px; height: 32px;
-  border-radius: 10px;
-  border: 2px solid #EAECF5;
-  background: #F4F6FB;
-  color: #6B7090;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: all .15s;
-  font-family: 'Nunito', sans-serif;
-}
-.modal-close:hover { background: #EAECF5; color: #1E2235; }
-
-.form-row { margin-bottom: 16px; }
-.form-row label {
-  display: block;
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: #6B7090;
-  margin-bottom: 7px;
-}
-.form-row input,
-.form-row textarea,
-.form-row select {
-  width: 100%;
-  border: 2px solid #EAECF5;
-  border-radius: 12px;
-  background: #F4F6FB;
-  font-family: 'Nunito', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #1E2235;
-  padding: 10px 14px;
-  outline: none;
-  transition: border-color .15s, background .15s;
-}
-.form-row input:focus,
-.form-row textarea:focus,
-.form-row select:focus { border-color: #2A6FE8; background: #fff; }
-.form-row input::placeholder,
-.form-row textarea::placeholder { color: #B8BEDD; }
-.form-row textarea { height: 90px; resize: vertical; }
-
-/* segmented type selector */
-.type-toggle {
-  display: flex;
-  gap: 8px;
-}
-.type-toggle button {
-  flex: 1;
-  padding: 9px;
-  border-radius: 10px;
-  border: 2px solid #EAECF5;
-  background: #F4F6FB;
-  color: #6B7090;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .15s;
-}
-.type-toggle button.sel { background: #1E2235; color: #fff; border-color: #1E2235; }
-
-.modal-footer {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-.btn-cancel {
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: 2px solid #EAECF5;
-  background: #F4F6FB;
-  color: #6B7090;
-  font-family: 'Nunito', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .15s;
-}
-.btn-cancel:hover { background: #EAECF5; }
-.btn-ok {
-  padding: 10px 24px;
-  border-radius: 12px;
-  border: none;
-  background: #2A6FE8;
-  color: #fff;
-  font-family: 'Nunito', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background .15s, transform .1s;
-}
-.btn-ok:hover { background: #1A5FD8; }
-.btn-ok:active { transform: scale(.97); }
-
-/* modal "nouvelle fiche" spécifique */
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-.cat-opt {
-  padding: 10px 8px;
-  border-radius: 12px;
-  border: 2px solid #EAECF5;
-  background: #F4F6FB;
-  color: #6B7090;
-  font-family: 'Nunito', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  text-align: center;
-  transition: all .15s;
-}
-.cat-opt:hover { border-color: #D4D8EC; background: #EAECF5; }
-.cat-opt.sel { border-color: #2A6FE8; background: #EBF0FF; color: #2A6FE8; }
-
-/* ── TOAST ────────────────────────────────────────────────────────────────── */
-#toast {
-  position: fixed;
-  bottom: 28px; right: 28px;
-  background: #1E2235;
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 14px;
-  font-size: 14px;
-  font-weight: 700;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all .22s;
-  pointer-events: none;
-  z-index: 200;
-  box-shadow: 0 8px 24px rgba(30,34,53,.25);
-}
-#toast.show { opacity: 1; transform: translateY(0); }
-
-/* ── EMPTY ────────────────────────────────────────────────────────────────── */
-.empty {
-  grid-column: 1/-1;
-  text-align: center;
-  padding: 80px 20px;
-  color: #B8BEDD;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
-@media (max-width: 640px) {
-  .topbar { padding: 0 16px; gap: 12px; }
-  .hero, .grid { padding-left: 16px; padding-right: 16px; }
-  .grid { grid-template-columns: 1fr; }
-  .search-box input { width: 110px; }
-  .add-card-btn span { display: none; }
-}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,253,249,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rose-mid);padding:0 2rem}
+.nav-inner{max-width:900px;margin:0 auto;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text)}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-size:.85rem;color:var(--text-light);text-decoration:none;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--vert-dark)}
+.hero{min-height:100vh;background:linear-gradient(160deg,var(--rose) 0%,var(--jaune) 50%,var(--vert) 100%);display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem}
+.hero-inner{max-width:640px}
+.hero-tag{display:inline-block;background:var(--vert-mid);color:var(--vert-dark);font-size:.75rem;font-weight:500;letter-spacing:.08em;padding:4px 14px;border-radius:20px;margin-bottom:1.5rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,4.5rem);line-height:1.1;color:var(--text);margin-bottom:1rem}
+.hero h1 em{font-style:italic;color:var(--vert-dark)}
+.hero-sub{font-size:1.05rem;color:var(--text-light);line-height:1.7;margin-bottom:2rem}
+.hero-meta{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+.meta-pill{background:white;border-radius:30px;padding:8px 18px;font-size:.82rem;color:var(--text-light);border:1px solid var(--rose-mid);display:flex;align-items:center;gap:6px}
+.meta-pill span{font-weight:500;color:var(--text)}
+.hero-svg{margin-bottom:2rem}
+section{padding:5rem 2rem}
+.container{max-width:900px;margin:0 auto}
+.section-label{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.4rem);color:var(--text);margin-bottom:2.5rem;line-height:1.2}
+.section-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2.5rem}
+.section-header .section-title{margin-bottom:0}
+#ingredients{background:var(--jaune)}
+.ing-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media(max-width:600px){.ing-grid{grid-template-columns:1fr}}
+.ing-card{background:white;border-radius:20px;padding:1.75rem;border:1px solid var(--jaune-mid)}
+.ing-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--jaune-mid)}
+.ing-list{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.ing-list li{display:flex;justify-content:space-between;align-items:baseline;font-size:.9rem;color:var(--text-light);padding-bottom:.5rem;border-bottom:1px dashed #EEE}
+.ing-list li:last-child{border-bottom:none}
+.ing-list .name{color:var(--text)}
+.ing-list .qty{font-weight:500;color:var(--vert-dark);font-size:.85rem}
+.ing-note{margin-top:1rem;background:var(--rose);border-radius:12px;padding:.85rem 1rem;font-size:.8rem;color:var(--text-light);line-height:1.6;border-left:3px solid var(--rose-dark)}
+#preparation{background:var(--white)}
+.steps{display:flex;flex-direction:column;gap:1.5rem}
+.step{display:grid;grid-template-columns:48px 1fr;gap:1.25rem;align-items:start}
+.step-num{width:48px;height:48px;border-radius:50%;background:var(--vert);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:var(--vert-dark);flex-shrink:0}
+.step-content{background:var(--white);border:1px solid #EEE;border-radius:16px;padding:1.25rem 1.5rem}
+.step-content p{font-size:.92rem;line-height:1.75;color:var(--text-light)}
+.step-content strong{color:var(--text)}
+.step-tip{margin-top:.75rem;background:var(--vert);border-radius:10px;padding:.6rem .9rem;font-size:.78rem;color:var(--vert-dark);line-height:1.6}
+#glacage{background:var(--rose)}
+.glacage-inner{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+@media(max-width:600px){.glacage-inner{grid-template-columns:1fr}}
+.glacage-card{background:white;border-radius:20px;padding:1.75rem;border:1px solid var(--rose-mid)}
+.glacage-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:1.25rem}
+.glacage-steps{display:flex;flex-direction:column;gap:.9rem}
+.g-step{display:flex;gap:.75rem;align-items:flex-start;font-size:.88rem;color:var(--text-light);line-height:1.6}
+.g-dot{width:8px;height:8px;border-radius:50%;background:var(--rose-dark);flex-shrink:0;margin-top:.45rem}
+.secret-card{background:var(--text);border-radius:20px;padding:1.75rem;color:white}
+.secret-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--jaune-mid);margin-bottom:1.25rem}
+.secret-card p{font-size:.88rem;line-height:1.75;color:rgba(255,255,255,.75)}
+.secret-card strong{color:white}
+#photo-section{background:var(--vert)}
+.photo-zone{max-width:600px;margin:0 auto;text-align:center}
+.photo-drop{border:2px dashed var(--vert-mid);border-radius:24px;padding:2.5rem 2rem;cursor:pointer;transition:all .2s;background:white;position:relative}
+.photo-drop:hover{border-color:var(--vert-dark);background:var(--vert)}
+.photo-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{margin-bottom:1rem}
+.drop-text{font-size:1rem;color:var(--text);font-weight:500;margin-bottom:.4rem}
+.drop-sub{font-size:.82rem;color:var(--text-light)}
+.photo-preview{display:none;margin-top:1.5rem;border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(91,168,154,.2)}
+.photo-preview img{width:100%;display:block;max-height:420px;object-fit:cover}
+.photo-caption{margin-top:.75rem;font-size:.82rem;color:var(--text-light);font-style:italic}
+.photo-remove{margin-top:.75rem;background:none;border:1px solid var(--rose-dark);color:var(--rose-dark);padding:6px 16px;border-radius:20px;font-size:.78rem;cursor:pointer;font-family:'Inter',sans-serif}
+.photo-remove:hover{background:var(--rose)}
+#conseils{background:var(--white)}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem}
+.tip{background:var(--white);border-radius:16px;padding:1.5rem;border:1px solid #EEE}
+.tip h4{font-weight:500;font-size:.92rem;color:var(--text);margin-bottom:.4rem;margin-top:.75rem}
+.tip p{font-size:.82rem;color:var(--text-light);line-height:1.6}
+footer{background:var(--text);color:rgba(255,255,255,.6);text-align:center;padding:2.5rem 2rem;font-size:.82rem}
+footer strong{color:white;font-family:'Playfair Display',serif;font-size:1rem}
 </style>
 </head>
 <body>
 
-<!-- ── TOPBAR ─────────────────────────────────────────────────────────────── -->
-<nav class="topbar">
-  <div class="topbar-logo">
-    <div class="dot"></div>
-    Fiches Web
-  </div>
-  <div class="topbar-sep"></div>
-  <div class="filters">
-    <button class="filter-btn active" data-f="all"       onclick="setFilter('all',this)">Tout</button>
-    <button class="filter-btn f-html" data-f="html"      onclick="setFilter('html',this)"><span class="chip-icon">🧱</span> HTML</button>
-    <button class="filter-btn f-css"  data-f="css"       onclick="setFilter('css',this)"><span class="chip-icon">🎨</span> CSS</button>
-    <button class="filter-btn f-js"   data-f="js"        onclick="setFilter('js',this)"><span class="chip-icon">⚡</span> JavaScript</button>
-    <button class="filter-btn f-bs"   data-f="bootstrap" onclick="setFilter('bootstrap',this)"><span class="chip-icon">🧩</span> Bootstrap</button>
-    <button class="filter-btn f-mk"   data-f="mkdocs"    onclick="setFilter('mkdocs',this)"><span class="chip-icon">📄</span> MkDocs</button>
-    <button class="filter-btn f-gl"   data-f="gitlab"    onclick="setFilter('gitlab',this)"><span class="chip-icon">🦊</span> GitLab</button>
-  </div>
-  <div class="topbar-right">
-    <div class="search-box">
-      <svg width="14" height="14" fill="none" stroke="#9EA4C0" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="search" type="text" placeholder="Chercher…" oninput="render()">
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">🥕 Le Carrot Cake de Lise</span>
+    <div class="nav-links">
+      <a href="#ingredients">Ingrédients</a>
+      <a href="#preparation">Préparation</a>
+      <a href="#glacage">Glaçage</a>
+      <a href="#photo-section">Ma photo</a>
+      <a href="#conseils">Conseils</a>
     </div>
-    <button class="add-card-btn" onclick="openNewCard()">
-      <span class="plus">+</span>
-      <span>Nouvelle fiche</span>
-    </button>
   </div>
 </nav>
 
-<!-- ── HERO ───────────────────────────────────────────────────────────────── -->
-<div class="hero">
-  <h1>Les outils du web, expliqués simplement ✌️</h1>
-  <p>Des fiches claires pour apprendre à ton rythme. <strong>Clique sur +</strong> pour ajouter des exemples ou des ressources à n'importe quelle fiche.</p>
-</div>
-
-<!-- ── GRID ───────────────────────────────────────────────────────────────── -->
-<div class="grid" id="grid"></div>
-
-<!-- ── MODAL CONTRIB ──────────────────────────────────────────────────────── -->
-<div class="overlay" id="ov-contrib">
-  <div class="modal">
-    <div class="modal-head">
-      <div>
-        <h3 id="mc-title">Ajouter</h3>
-        <div class="modal-sub" id="mc-sub"></div>
-      </div>
-      <button class="modal-close" onclick="closeModal('ov-contrib')">×</button>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">La recette de Lise</span>
+    <div class="hero-svg">
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="78" rx="38" ry="28" fill="#F9C8C8"/>
+        <ellipse cx="60" cy="72" rx="38" ry="28" fill="#FDE8E8" stroke="#E8A0A0" stroke-width="1.5"/>
+        <rect x="22" y="58" width="76" height="16" rx="4" fill="#FDF6E3" stroke="#F5E6B0" stroke-width="1.5"/>
+        <ellipse cx="60" cy="58" rx="38" ry="14" fill="#FFFDF9" stroke="#F5E6B0" stroke-width="1.5"/>
+        <path d="M48 20 Q52 8 56 18 Q58 6 62 18 Q66 8 70 20" stroke="#5BA89A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M50 28 Q54 16 58 26 Q60 14 64 26 Q68 16 72 28" stroke="#A8D5CC" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <ellipse cx="60" cy="30" rx="14" ry="8" fill="#F26522" opacity=".85"/>
+        <ellipse cx="60" cy="29" rx="12" ry="6" fill="#F48C42"/>
+        <circle cx="44" cy="65" r="4" fill="#F9C8C8" stroke="#E8A0A0" stroke-width="1"/>
+        <circle cx="76" cy="63" r="3" fill="#A8D5CC" stroke="#5BA89A" stroke-width="1"/>
+        <circle cx="60" cy="67" r="3.5" fill="#F5E6B0" stroke="#E8C840" stroke-width="1"/>
+      </svg>
     </div>
-
-    <div class="form-row">
-      <label>Type de contribution</label>
-      <div class="type-toggle">
-        <button id="tt-ex"  class="sel" onclick="setType('exemple')">💡 Exemple</button>
-        <button id="tt-res" class=""    onclick="setType('ressource')">🔗 Ressource</button>
-      </div>
-    </div>
-    <div class="form-row">
-      <label>Ton prénom *</label>
-      <input id="mc-author" placeholder="ex : Camille" />
-    </div>
-    <div class="form-row">
-      <label id="mc-content-label">Contenu *</label>
-      <textarea id="mc-content" placeholder=""></textarea>
-    </div>
-    <div class="form-row" id="mc-url-row" style="display:none">
-      <label>Lien URL</label>
-      <input id="mc-url" placeholder="https://…" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('ov-contrib')">Annuler</button>
-      <button class="btn-ok" onclick="submitContrib()">Ajouter →</button>
+    <h1>Le meilleur<br><em>Carrot Cake</em></h1>
+    <p class="hero-sub">Moelleux, parfumé, généreux. La recette de Lise — testée, annotée,<br>avec tous les petits secrets pour le réussir à la perfection.</p>
+    <div class="hero-meta">
+      <div class="meta-pill">🔪 Préparation <span>30 min</span></div>
+      <div class="meta-pill">🔥 Cuisson <span>40–50 min</span></div>
+      <div class="meta-pill">❄️ Repos <span>12h</span></div>
+      <div class="meta-pill">👥 Pour <span>6–8 personnes</span></div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ── MODAL NOUVELLE FICHE ───────────────────────────────────────────────── -->
-<div class="overlay" id="ov-new">
-  <div class="modal">
-    <div class="modal-head">
+<section id="ingredients">
+  <div class="container">
+    <div class="section-header">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+        <ellipse cx="26" cy="38" rx="10" ry="6" fill="#F48C42" opacity=".3"/>
+        <path d="M26 42 Q20 34 20 26 Q20 18 26 14 Q32 18 32 26 Q32 34 26 42Z" fill="#F48C42"/>
+        <path d="M26 42 Q22 34 22 26 Q22 18 26 14" fill="#F26522" opacity=".4"/>
+        <path d="M26 14 Q24 8 22 10 M26 14 Q26 7 28 9 M26 14 Q28 8 30 10" stroke="#5BA89A" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
       <div>
-        <h3>Nouvelle fiche</h3>
-        <div class="modal-sub">Crée une fiche pour ta classe</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('ov-new')">×</button>
-    </div>
-
-    <div class="form-row">
-      <label>Catégorie</label>
-      <div class="cat-grid" id="cat-grid">
-        <button class="cat-opt sel" data-cat="html"      onclick="selCat(this)">🧱 HTML</button>
-        <button class="cat-opt"     data-cat="css"       onclick="selCat(this)">🎨 CSS</button>
-        <button class="cat-opt"     data-cat="js"        onclick="selCat(this)">⚡ JS</button>
-        <button class="cat-opt"     data-cat="bootstrap" onclick="selCat(this)">🧩 Bootstrap</button>
-        <button class="cat-opt"     data-cat="mkdocs"    onclick="selCat(this)">📄 MkDocs</button>
-        <button class="cat-opt"     data-cat="gitlab"    onclick="selCat(this)">🦊 GitLab</button>
+        <div class="section-label" style="color:var(--vert-dark)">Étape 1</div>
+        <h2 class="section-title">Les ingrédients</h2>
       </div>
     </div>
-    <div class="form-row">
-      <label>Titre de la fiche *</label>
-      <input id="nf-titre" placeholder="ex : Les variables CSS" />
-    </div>
-    <div class="form-row">
-      <label>Sous-titre (une ligne)</label>
-      <input id="nf-sub" placeholder="ex : Stocker des valeurs réutilisables" />
-    </div>
-    <div class="form-row">
-      <label>Définition *</label>
-      <textarea id="nf-def" placeholder="Explique ce concept simplement…"></textarea>
-    </div>
-    <div class="form-row">
-      <label>Métaphore (optionnel)</label>
-      <input id="nf-meta" placeholder="ex : 🍕 C'est comme une recette…" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('ov-new')">Annuler</button>
-      <button class="btn-ok" onclick="submitNewCard()">Créer la fiche →</button>
+    <div class="ing-grid">
+      <div class="ing-card">
+        <h3>🎂 Le gâteau</h3>
+        <ul class="ing-list">
+          <li><span class="name">Carotte râpée</span><span class="qty">250 g</span></li>
+          <li><span class="name">Poudre d'amande</span><span class="qty">175 g</span></li>
+          <li><span class="name">Noix de pécan</span><span class="qty">50 g</span></li>
+          <li><span class="name">Cranberries séchées</span><span class="qty">25 g <em style="font-size:.75rem;font-weight:400">(fac.)</em></span></li>
+          <li><span class="name">Œufs</span><span class="qty">4</span></li>
+          <li><span class="name">Farine</span><span class="qty">75 g</span></li>
+          <li><span class="name">Sucre roux</span><span class="qty">130 g</span></li>
+          <li><span class="name">Sel</span><span class="qty">½ c à c</span></li>
+          <li><span class="name">Citron (zeste + jus)</span><span class="qty">1</span></li>
+          <li><span class="name">Cannelle</span><span class="qty">1 c à c</span></li>
+          <li><span class="name">Gingembre en poudre</span><span class="qty">½ c à c <em style="font-size:.75rem;font-weight:400">(fac.)</em></span></li>
+          <li><span class="name">Quatre épices</span><span class="qty">1 pincée <em style="font-size:.75rem;font-weight:400">(fac.)</em></span></li>
+          <li><span class="name">Beurre (moule)</span><span class="qty">20 g</span></li>
+        </ul>
+        <div class="ing-note">💡 Pour 6–8 pers. la moitié des ingrédients suffit — c'est un gâteau plutôt nourrissant !</div>
+      </div>
+      <div class="ing-card">
+        <h3>🍦 Le glaçage cream cheese</h3>
+        <ul class="ing-list">
+          <li><span class="name">Beurre mou</span><span class="qty">25 g</span></li>
+          <li><span class="name">Fromage frais crémeux</span><span class="qty">50 g</span></li>
+          <li><span class="name">Sucre glace</span><span class="qty">100 g</span></li>
+          <li><span class="name">Arôme de citron</span><span class="qty">quelques gouttes <em style="font-size:.75rem;font-weight:400">(fac.)</em></span></li>
+        </ul>
+        <div class="ing-note" style="background:var(--vert);border-left-color:var(--vert-dark);margin-top:1.5rem">ℹ️ Le glaçage cream cheese reste toujours plus mou qu'un glaçage classique — c'est tout à fait normal !</div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<div id="toast"></div>
+<section id="preparation">
+  <div class="container">
+    <div class="section-header">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+        <rect x="10" y="28" width="32" height="18" rx="6" fill="#FDE8E8" stroke="#E8A0A0" stroke-width="1.5"/>
+        <rect x="14" y="22" width="24" height="10" rx="4" fill="#FDF6E3" stroke="#F5E6B0" stroke-width="1.5"/>
+        <ellipse cx="26" cy="22" rx="12" ry="5" fill="#FFFDF9" stroke="#F5E6B0" stroke-width="1.5"/>
+        <path d="M20 10 Q22 6 26 8 Q30 6 32 10 Q34 14 26 16 Q18 14 20 10Z" fill="#A8D5CC"/>
+        <circle cx="19" cy="34" r="2.5" fill="#F9C8C8" stroke="#E8A0A0" stroke-width="1"/>
+        <circle cx="33" cy="34" r="2.5" fill="#A8D5CC" stroke="#5BA89A" stroke-width="1"/>
+        <circle cx="26" cy="36" r="2.5" fill="#F5E6B0" stroke="#BFA830" stroke-width="1"/>
+      </svg>
+      <div>
+        <div class="section-label" style="color:var(--vert-dark)">Étape 2</div>
+        <h2 class="section-title">La préparation</h2>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <p>Dans le bol d'un robot, travaillez <strong>les jaunes d'œufs et le sucre</strong> jusqu'à ce qu'ils blanchissent et deviennent mousseux.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <p>Ajoutez <strong>le zeste du citron</strong> finement râpé, puis la farine, le sel, les amandes en poudre et les noix de pécan hachées, les épices. Actionnez le robot par à-coups pour bien mélanger le tout.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <p>Ajoutez alors <strong>les carottes très finement râpées</strong> et enfin le jus de citron. Mixez encore quelques instants pour homogénéiser. Ajoutez en dernier les cranberries séchées.</p>
+          <div class="step-tip">✨ Beaucoup mieux avec un robot : pâte plus aérée, moins compacte.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <p><strong>Montez les blancs en neige</strong> et incorporez-les délicatement à la préparation précédente.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <p>Beurrez généreusement <strong>un moule à manqué</strong> (si possible à fond amovible). Versez la préparation. Enfournez et cuisez à <strong>180°C pendant 40 à 50 minutes</strong> selon les fours.</p>
+          <div class="step-tip">🔪 Piquez au couteau pour vérifier la cuisson. Démoulez sur une grille et laissez refroidir complètement avant de glacer.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="glacage">
+  <div class="container">
+    <div class="section-header">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+        <ellipse cx="26" cy="36" rx="16" ry="8" fill="#F9C8C8" stroke="#E8A0A0" stroke-width="1.5"/>
+        <ellipse cx="26" cy="30" rx="16" ry="8" fill="#FFFDF9" stroke="#F9C8C8" stroke-width="1.5"/>
+        <path d="M14 24 Q18 16 26 18 Q34 16 38 24" stroke="#F9C8C8" stroke-width="2" fill="none"/>
+        <path d="M20 20 Q22 14 26 16 Q30 14 32 20" fill="white" stroke="#F5E6B0" stroke-width="1.5"/>
+        <circle cx="26" cy="14" r="3" fill="#F5E6B0" stroke="#BFA830" stroke-width="1"/>
+      </svg>
+      <div>
+        <div class="section-label" style="color:var(--rose-dark)">Étape 3</div>
+        <h2 class="section-title">Le glaçage</h2>
+      </div>
+    </div>
+    <div class="glacage-inner">
+      <div class="glacage-card">
+        <h3>Comment préparer le glaçage</h3>
+        <div class="glacage-steps">
+          <div class="g-step"><div class="g-dot"></div><span>Travaillez <strong>le beurre mou avec le sucre glace</strong> et l'extrait de citron à la cuillère en bois, jusqu'à ce que le mélange soit bien homogène.</span></div>
+          <div class="g-step"><div class="g-dot"></div><span>Ajoutez le <strong>fromage frais</strong> seulement à ce stade.</span></div>
+          <div class="g-step"><div class="g-dot"></div><span>Fouettez <strong>un peu</strong> pour homogénéiser — pas trop longtemps pour ne pas rendre la préparation trop liquide.</span></div>
+          <div class="g-step"><div class="g-dot"></div><span>Étalez sur le carrot cake refroidi. Laissez durcir au réfrigérateur <strong>au moins 12h</strong> avant de déguster.</span></div>
+        </div>
+      </div>
+      <div class="secret-card">
+        <h3>✦ Le secret de Lise</h3>
+        <p>Travailler le beurre et le sucre glace <strong>en premier</strong>, avant d'ajouter le fromage frais. Cela permet d'obtenir un glaçage lisse et homogène, sans risque de le rendre trop liquide en surmixant.<br><br>Le glaçage cream cheese est naturellement plus souple qu'un glaçage classique — c'est exactement ce qui lui donne ce <strong>fondant caractéristique</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="photo-section">
+  <div class="container">
+    <div class="section-header">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+        <rect x="8" y="14" width="36" height="28" rx="6" fill="#D4EDE8" stroke="#A8D5CC" stroke-width="1.5"/>
+        <circle cx="26" cy="28" r="8" fill="white" stroke="#A8D5CC" stroke-width="1.5"/>
+        <circle cx="26" cy="28" r="5" fill="#D4EDE8"/>
+        <rect x="20" y="10" width="12" height="6" rx="3" fill="#A8D5CC"/>
+        <circle cx="36" cy="20" r="2" fill="white" opacity=".8"/>
+      </svg>
+      <div>
+        <div class="section-label" style="color:var(--vert-dark)">Galerie</div>
+        <h2 class="section-title">Ma photo du gâteau</h2>
+      </div>
+    </div>
+    <div class="photo-zone">
+      <div class="photo-drop" id="dropZone">
+        <input type="file" accept="image/*" id="photoInput">
+        <div class="drop-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="22" fill="var(--vert)" stroke="var(--vert-mid)" stroke-width="1.5"/>
+            <path d="M24 16 L24 32 M16 24 L32 24" stroke="var(--vert-dark)" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="drop-text">Ajoute ta photo ici</p>
+        <p class="drop-sub">Elle sera sauvegardée et réapparaîtra à chaque visite ✨</p>
+      </div>
+      <div class="photo-preview" id="photoPreview">
+        <img id="photoImg" src="" alt="Mon carrot cake">
+        <p class="photo-caption">Mon carrot cake 🥕</p>
+        <button class="photo-remove" id="removeBtn">Supprimer la photo</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="conseils">
+  <div class="container">
+    <div class="section-header">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+        <circle cx="26" cy="22" r="12" fill="#FDF6E3" stroke="#F5E6B0" stroke-width="1.5"/>
+        <path d="M22 22 Q22 18 26 16 Q30 18 30 22 Q30 26 26 28" stroke="#BFA830" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="26" cy="31" r="1.5" fill="#BFA830"/>
+        <path d="M18 38 Q26 34 34 38" stroke="#A8D5CC" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="section-label" style="color:var(--vert-dark)">Pour aller plus loin</div>
+        <h2 class="section-title">Les conseils de Lise</h2>
+      </div>
+    </div>
+    <div class="tips-grid">
+      <div class="tip">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 28 Q10 22 10 16 Q10 10 16 8 Q22 10 22 16 Q22 22 16 28Z" fill="#F48C42"/><path d="M16 8 Q14 4 12 6 M16 8 Q16 3 18 5 M16 8 Q18 4 20 6" stroke="#5BA89A" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+        <h4>Les carottes</h4>
+        <p>Râpez-les très finement. Un robot fera un bien meilleur travail qu'une râpe manuelle.</p>
+      </div>
+      <div class="tip">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="20" rx="10" ry="7" fill="#FDE8E8" stroke="#E8A0A0" stroke-width="1.5"/><path d="M8 16 Q10 10 16 10 Q22 10 24 16" stroke="#E8A0A0" stroke-width="1.5" fill="none"/><path d="M12 10 Q14 6 16 8 Q18 6 20 10" stroke="#F9C8C8" stroke-width="1.5" fill="none"/></svg>
+        <h4>Les blancs en neige</h4>
+        <p>Le secret du moelleux. Incorporez délicatement en soulevant la masse.</p>
+      </div>
+      <div class="tip">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="8" y="14" width="16" height="14" rx="4" fill="#FDE8E8" stroke="#E8A0A0" stroke-width="1.5"/><path d="M12 14 Q12 8 16 8 Q20 8 20 14" stroke="#E8A0A0" stroke-width="1.5" fill="none"/><path d="M16 19 L16 23" stroke="#E8A0A0" stroke-width="2" stroke-linecap="round"/></svg>
+        <h4>La cuisson</h4>
+        <p>40 à 50 min à 180°C — piquez au couteau. Chaque four est différent !</p>
+      </div>
+      <div class="tip">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10" fill="#D4EDE8" stroke="#A8D5CC" stroke-width="1.5"/><path d="M16 10 L16 16 L20 20" stroke="#5BA89A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Le repos</h4>
+        <p>12h minimum après le glaçage. Le lendemain il est encore meilleur.</p>
+      </div>
+      <div class="tip">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="8" y="8" width="16" height="20" rx="4" fill="#FDF6E3" stroke="#F5E6B0" stroke-width="1.5"/><path d="M12 14 L20 14 M12 18 L18 18 M12 22 L16 22" stroke="#BFA830" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <h4>Les quantités</h4>
+        <p>Pour 6–8 personnes, la moitié suffit. C'est un gâteau très nourrissant !</p>
+      </div>
+      <div class="tip">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10" fill="#FDE8E8" stroke="#E8A0A0" stroke-width="1.5"/><path d="M12 16 L15 19 L20 13" stroke="#5BA89A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Les facultatifs</h4>
+        <p>Cranberries, gingembre, quatre épices — facultatifs mais ils font la différence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Le Carrot Cake de Lise</strong><br><br>
+  Recette originale · Journal des Femmes · Annotée et adaptée par Lise
+</footer>
 
 <script>
-// ─── DONNÉES ─────────────────────────────────────────────────────────────────
-const CAT_META = {
-  html:      { icon:'🧱', label:'HTML' },
-  css:       { icon:'🎨', label:'CSS' },
-  js:        { icon:'⚡', label:'JavaScript' },
-  bootstrap: { icon:'🧩', label:'Bootstrap' },
-  mkdocs:    { icon:'📄', label:'MkDocs' },
-  gitlab:    { icon:'🦊', label:'GitLab' },
-};
+const input = document.getElementById('photoInput');
+const preview = document.getElementById('photoPreview');
+const img = document.getElementById('photoImg');
+const dropZone = document.getElementById('dropZone');
+const removeBtn = document.getElementById('removeBtn');
 
-let CARDS = [
-  {
-    id:'html-1', cat:'html',
-    titre:'HTML',
-    sub:'La structure de la page',
-    def:'HTML (HyperText Markup Language) est le squelette de toute page web. Il organise le contenu avec des balises : titres, paragraphes, images, liens… Le navigateur lit ces balises et affiche le résultat.',
-    meta:'🏗️ C\'est comme les murs d\'une maison. Sans eux, rien ne tient debout — mais ils ne disent pas encore la couleur de la peinture.',
-    code:{ file:'index.html', content:`<span class="tg">&lt;h1&gt;</span>Mon titre<span class="tg">&lt;/h1&gt;</span>
-<span class="tg">&lt;p&gt;</span>Un paragraphe de texte.<span class="tg">&lt;/p&gt;</span>
-<span class="tg">&lt;img</span> <span class="at">src=</span><span class="vl">"photo.jpg"</span> <span class="at">alt=</span><span class="vl">"Description"</span><span class="tg">&gt;</span>
-<span class="tg">&lt;a</span> <span class="at">href=</span><span class="vl">"https://..."</span><span class="tg">&gt;</span>Un lien<span class="tg">&lt;/a&gt;</span>` },
-    exemples:[], ressources:[]
-  },
-  {
-    id:'css-1', cat:'css',
-    titre:'CSS',
-    sub:'Le style de la page',
-    def:'CSS (Cascading Style Sheets) s\'occupe de l\'apparence. Il définit les couleurs, polices, tailles, espacements et mises en page. Sans CSS, toutes les pages web seraient du texte noir sur fond blanc.',
-    meta:'🎨 Si HTML est la maison, CSS c\'est la déco — les couleurs des murs, les meubles, la lumière.',
-    code:{ file:'style.css', content:`<span class="sl">h1</span> {
-  <span class="pr">color</span>: <span class="vl">#2A6FE8</span>;
-  <span class="pr">font-size</span>: <span class="vl">32px</span>;
-}
-<span class="sl">.carte</span> {
-  <span class="pr">background</span>: <span class="vl">#fff</span>;
-  <span class="pr">border-radius</span>: <span class="vl">16px</span>;
-  <span class="pr">padding</span>: <span class="vl">20px</span>;
-}` },
-    exemples:[], ressources:[]
-  },
-  {
-    id:'css-2', cat:'css',
-    titre:'Media queries',
-    sub:'S\'adapter à la taille de l\'écran',
-    def:'Les media queries permettent d\'appliquer des styles différents selon la taille de l\'écran. Grâce à elles, un site peut s\'afficher en une colonne sur mobile et en 3 colonnes sur ordinateur.',
-    meta:'👗 C\'est comme des vêtements taille S/M/L — le même contenu, mais un "costume" différent selon l\'écran.',
-    code:{ file:'responsive.css', content:`<span class="cm">/* Sur mobile (moins de 768px) */</span>
-<span class="kw">@media</span> (<span class="pr">max-width</span>: <span class="vl">768px</span>) {
-  <span class="sl">.menu</span> { <span class="pr">display</span>: <span class="vl">none</span>; }
-  <span class="sl">h1</span>    { <span class="pr">font-size</span>: <span class="vl">20px</span>; }
-}` },
-    exemples:[], ressources:[]
-  },
-  {
-    id:'js-1', cat:'js',
-    titre:'JavaScript',
-    sub:'L\'interactivité de la page',
-    def:'JavaScript (JS) rend les pages web vivantes. Il peut réagir aux clics, modifier le contenu affiché, faire des animations, ou envoyer des données sans recharger la page.',
-    meta:'⚡ HTML est le squelette, CSS l\'apparence, JS le système nerveux. C\'est ce qui fait que la lampe s\'allume quand tu appuies sur l\'interrupteur.',
-    code:{ file:'script.js', content:`<span class="cm">// Au clic sur le bouton</span>
-<span class="kw">const</span> btn = document.<span class="fn">querySelector</span>(<span class="str">'#bouton'</span>);
-
-btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () => {
-  btn.textContent = <span class="str">'Cliqué !'</span>;
-  btn.style.background = <span class="str">'#2A6FE8'</span>;
-});` },
-    exemples:[], ressources:[]
-  },
-  {
-    id:'bs-1', cat:'bootstrap',
-    titre:'Bootstrap',
-    sub:'Des composants prêts à l\'emploi',
-    def:'Bootstrap est une boîte à outils CSS/HTML créée par Twitter. En ajoutant des classes prédéfinies dans ton HTML, tu obtiens des boutons, grilles, menus et formulaires déjà stylisés et responsive — sans coder le CSS toi-même.',
-    meta:'🧱 C\'est comme des briques Lego — les pièces existent déjà, tu assembles sans tout fabriquer.',
-    code:{ file:'index.html', content:`<span class="cm">&lt;!-- Un bouton Bootstrap --&gt;</span>
-<span class="tg">&lt;button</span> <span class="at">class=</span><span class="vl">"btn btn-primary"</span><span class="tg">&gt;</span>
-  Envoyer
-<span class="tg">&lt;/button&gt;</span>
-
-<span class="cm">&lt;!-- Grille 2 colonnes --&gt;</span>
-<span class="tg">&lt;div</span> <span class="at">class=</span><span class="vl">"row"</span><span class="tg">&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class=</span><span class="vl">"col-md-6"</span><span class="tg">&gt;</span>Gauche<span class="tg">&lt;/div&gt;</span>
-  <span class="tg">&lt;div</span> <span class="at">class=</span><span class="vl">"col-md-6"</span><span class="tg">&gt;</span>Droite<span class="tg">&lt;/div&gt;</span>
-<span class="tg">&lt;/div&gt;</span>` },
-    exemples:[], ressources:[]
-  },
-  {
-    id:'mk-1', cat:'mkdocs',
-    titre:'MkDocs',
-    sub:'Du texte → un site web',
-    def:'MkDocs est un générateur de site de documentation. Tu écris du texte simple en Markdown (# Titre, **gras**, - liste), et MkDocs le transforme automatiquement en un site web propre et navigable. Pas besoin de toucher au HTML.',
-    meta:'📝 C\'est comme écrire sur Word et qu\'un robot transforme ton document en site web automatiquement.',
-    code:{ file:'terminal', content:`<span class="cm"># Installer MkDocs</span>
-pip install mkdocs
-
-<span class="cm"># Créer un projet</span>
-mkdocs new mon-projet
-
-<span class="cm"># Lancer en local</span>
-mkdocs serve
-
-<span class="cm"># Générer le site final</span>
-mkdocs build` },
-    exemples:[], ressources:[]
-  },
-  {
-    id:'gl-1', cat:'gitlab',
-    titre:'GitLab',
-    sub:'Stocker et partager son code',
-    def:'GitLab est une plateforme en ligne pour stocker, versionner et partager du code. Basé sur Git, il permet à plusieurs personnes de travailler sur le même projet sans s\'écraser mutuellement, grâce à un historique de toutes les modifications.',
-    meta:'📁 C\'est Google Drive pour le code — mais en plus intelligent, car il se souvient de chaque version de chaque fichier.',
-    code:{ file:'terminal', content:`<span class="cm"># Copier un projet GitLab sur ton ordi</span>
-git clone https://gitlab.com/projet
-
-<span class="cm"># Préparer ses modifications</span>
-git add .
-
-<span class="cm"># Sauvegarder avec un message</span>
-git commit -m <span class="str">"Ajout de la page contact"</span>
-
-<span class="cm"># Envoyer sur GitLab</span>
-git push` },
-    exemples:[], ressources:[]
-  },
-];
-
-// ─── STATE ────────────────────────────────────────────────────────────────────
-let activeFilter = 'all';
-let pendingContrib = null;
-let pendingType = 'exemple';
-let selectedCat = 'html';
-
-// persistance localStorage
-function load() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('fiches_contribs') || '{}');
-    const extra = JSON.parse(localStorage.getItem('fiches_extra') || '[]');
-    CARDS.forEach(c => {
-      if (saved[c.id]) { c.exemples = saved[c.id].ex||[]; c.ressources = saved[c.id].res||[]; }
-    });
-    CARDS = CARDS.concat(extra);
-  } catch(e){}
-}
-function save() {
-  const out = {};
-  CARDS.forEach(c => { out[c.id] = { ex: c.exemples, res: c.ressources }; });
-  localStorage.setItem('fiches_contribs', JSON.stringify(out));
-}
-function saveExtra() {
-  const base = ['html-1','css-1','css-2','js-1','bs-1','mk-1','gl-1'];
-  const extra = CARDS.filter(c => !base.includes(c.id));
-  localStorage.setItem('fiches_extra', JSON.stringify(extra));
+function showPhoto(src) {
+  img.src = src;
+  preview.style.display = 'block';
+  dropZone.style.display = 'none';
 }
 
-// ─── FILTER ───────────────────────────────────────────────────────────────────
-function setFilter(f, btn) {
-  activeFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  render();
+function clearPhoto() {
+  localStorage.removeItem('lise_cake_photo');
+  preview.style.display = 'none';
+  dropZone.style.display = 'block';
+  img.src = '';
+  input.value = '';
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
-function render() {
-  const q = (document.getElementById('search').value || '').toLowerCase();
-  let cards = CARDS;
-  if (activeFilter !== 'all') cards = cards.filter(c => c.cat === activeFilter);
-  if (q) cards = cards.filter(c =>
-    c.titre.toLowerCase().includes(q) ||
-    c.def.toLowerCase().includes(q) ||
-    (c.sub||'').toLowerCase().includes(q)
-  );
+const saved = localStorage.getItem('lise_cake_photo');
+if (saved) showPhoto(saved);
 
-  const grid = document.getElementById('grid');
-  if (!cards.length) {
-    grid.innerHTML = '<div class="empty">Aucune fiche trouvée 😕</div>';
-    return;
-  }
-
-  grid.innerHTML = cards.map(c => {
-    const m = CAT_META[c.cat] || { icon:'📌', label: c.cat };
-    const hasCode = c.code && c.code.content;
-    return `
-<div class="card" data-cat="${c.cat}">
-  <div class="card-stripe"></div>
-  <div class="card-head">
-    <div class="card-icon">${m.icon}</div>
-    <div class="card-head-text">
-      <span class="card-badge">${m.label}</span>
-      <h2>${esc(c.titre)}</h2>
-      ${c.sub ? `<p class="card-sub">${esc(c.sub)}</p>` : ''}
-    </div>
-  </div>
-
-  <p class="card-def">${esc(c.def)}</p>
-  ${c.meta ? `<div class="card-metaphore">${esc(c.meta)}</div>` : ''}
-
-  ${hasCode ? `
-  <div class="card-code">
-    <div class="card-code-header">
-      <div class="mac-dots"><span></span><span></span><span></span></div>
-      <span class="code-filename">${esc(c.code.file)}</span>
-    </div>
-    <pre>${c.code.content}</pre>
-  </div>` : ''}
-
-  <div class="card-contrib">
-    <div class="contrib-block">
-      <div class="contrib-title">
-        <span class="contrib-label">
-          💡 Exemples
-          <span class="contrib-count">${c.exemples.length}</span>
-        </span>
-        <button class="plus-btn" onclick="openContrib('${c.id}','${esc(c.titre)}','exemple')" title="Ajouter un exemple">+</button>
-      </div>
-      <div class="contrib-items">
-        ${c.exemples.length
-          ? c.exemples.map(e=>`<div class="contrib-item">${esc(e.texte)}<div class="contrib-author">— ${esc(e.auteur)}</div></div>`).join('')
-          : '<p class="contrib-empty">Pas encore d\'exemple — sois le premier !</p>'}
-      </div>
-    </div>
-    <div class="contrib-block">
-      <div class="contrib-title">
-        <span class="contrib-label">
-          🔗 Ressources
-          <span class="contrib-count">${c.ressources.length}</span>
-        </span>
-        <button class="plus-btn" onclick="openContrib('${c.id}','${esc(c.titre)}','ressource')" title="Ajouter une ressource">+</button>
-      </div>
-      <div class="contrib-items">
-        ${c.ressources.length
-          ? c.ressources.map(r=>`<div class="contrib-item">${r.url ? `<a href="${esc(r.url)}" target="_blank">🔗 ${esc(r.titre)}</a>` : esc(r.titre)}<div class="contrib-author">— ${esc(r.auteur)}</div></div>`).join('')
-          : '<p class="contrib-empty">Aucune ressource — ajoute la première !</p>'}
-      </div>
-    </div>
-  </div>
-</div>`;
-  }).join('');
-}
-
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
-// ─── MODAL CONTRIB ────────────────────────────────────────────────────────────
-function openContrib(id, nom, type) {
-  pendingContrib = { id, nom };
-  pendingType = type;
-  document.getElementById('mc-title').textContent = type === 'exemple' ? 'Ajouter un exemple' : 'Ajouter une ressource';
-  document.getElementById('mc-sub').textContent = '→ ' + nom;
-  setType(type);
-  document.getElementById('mc-author').value = localStorage.getItem('fiches_author') || '';
-  document.getElementById('mc-content').value = '';
-  document.getElementById('mc-url').value = '';
-  document.getElementById('ov-contrib').classList.add('open');
-}
-
-function setType(t) {
-  pendingType = t;
-  document.getElementById('tt-ex').className  = t==='exemple'   ? 'sel' : '';
-  document.getElementById('tt-res').className = t==='ressource' ? 'sel' : '';
-  document.getElementById('mc-content-label').textContent = t==='exemple' ? 'Contenu *' : 'Titre / description *';
-  document.getElementById('mc-content').placeholder = t==='exemple'
-    ? 'ex : display: flex; justify-content: center;'
-    : 'ex : Grafikart — CSS Flexbox en 10 min';
-  document.getElementById('mc-url-row').style.display = t==='ressource' ? 'block' : 'none';
-}
-
-function submitContrib() {
-  const author  = document.getElementById('mc-author').value.trim();
-  const content = document.getElementById('mc-content').value.trim();
-  const url     = document.getElementById('mc-url').value.trim();
-  if (!author || !content) { toast('⚠️ Remplis ton prénom et le contenu.'); return; }
-  localStorage.setItem('fiches_author', author);
-  const card = CARDS.find(c => c.id === pendingContrib.id);
-  if (!card) return;
-  if (pendingType === 'exemple') card.exemples.push({ auteur: author, texte: content });
-  else card.ressources.push({ auteur: author, titre: content, url });
-  save();
-  closeModal('ov-contrib');
-  render();
-  toast('✅ Contribution ajoutée !');
-}
-
-// ─── MODAL NOUVELLE FICHE ────────────────────────────────────────────────────
-function openNewCard() {
-  selectedCat = 'html';
-  document.querySelectorAll('.cat-opt').forEach(b => b.classList.remove('sel'));
-  document.querySelector('.cat-opt[data-cat="html"]').classList.add('sel');
-  document.getElementById('nf-titre').value = '';
-  document.getElementById('nf-sub').value   = '';
-  document.getElementById('nf-def').value   = '';
-  document.getElementById('nf-meta').value  = '';
-  document.getElementById('ov-new').classList.add('open');
-}
-
-function selCat(btn) {
-  selectedCat = btn.dataset.cat;
-  document.querySelectorAll('.cat-opt').forEach(b => b.classList.remove('sel'));
-  btn.classList.add('sel');
-}
-
-function submitNewCard() {
-  const titre = document.getElementById('nf-titre').value.trim();
-  const def   = document.getElementById('nf-def').value.trim();
-  if (!titre || !def) { toast('⚠️ Titre et définition requis.'); return; }
-  const newCard = {
-    id: 'custom-' + Date.now(),
-    cat: selectedCat,
-    titre,
-    sub:  document.getElementById('nf-sub').value.trim(),
-    def,
-    meta: document.getElementById('nf-meta').value.trim(),
-    code: null,
-    exemples: [],
-    ressources: []
+input.addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      localStorage.setItem('lise_cake_photo', e.target.result);
+    } catch(err) {
+      console.log('Photo trop lourde pour le stockage local');
+    }
+    showPhoto(e.target.result);
   };
-  CARDS.push(newCard);
-  saveExtra();
-  closeModal('ov-new');
-  render();
-  toast('🎉 Fiche créée !');
-}
-
-// ─── UTILS ────────────────────────────────────────────────────────────────────
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-document.getElementById('ov-contrib').addEventListener('click', e => {
-  if (e.target === document.getElementById('ov-contrib')) closeModal('ov-contrib');
-});
-document.getElementById('ov-new').addEventListener('click', e => {
-  if (e.target === document.getElementById('ov-new')) closeModal('ov-new');
+  reader.readAsDataURL(file);
 });
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-load();
-render();
+removeBtn.addEventListener('click', clearPhoto);
 </script>
 </body>
 </html>
